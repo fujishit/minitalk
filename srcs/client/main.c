@@ -1,12 +1,19 @@
 #include "client.h"
 
-void	client_send(pid_t pid, int sig)
+void	client_send(pid_t pid, int sig[8])
 {
-	if (sig == 0)
-		kill(pid, SIGUSR1);
-	else
-		kill(pid, SIGUSR2);
-	usleep(100);
+	int	i;
+
+	i = 0;
+	while (i < 8)
+	{
+		if (sig[i] == 0)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		i++;
+		usleep(100);
+	}
 }
 
 void	client_atosig(unsigned char c, int sig[8])
@@ -41,14 +48,9 @@ int		main(int argc, char *argv[])
 	while (argv[2][i] != '\0')
 	{
 		client_atosig(argv[2][i], sig);
-		client_send(server, sig[0]);
-		client_send(server, sig[1]);
-		client_send(server, sig[2]);
-		client_send(server, sig[3]);
-		client_send(server, sig[4]);
-		client_send(server, sig[5]);
-		client_send(server, sig[6]);
-		client_send(server, sig[7]);
+		client_send(server, sig);
 		i++;
 	}
+	client_atosig('\n', sig);
+	client_send(server, sig);
 }
