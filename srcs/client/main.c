@@ -1,5 +1,4 @@
 #include "client.h"
-#include <stdio.h>
 
 void	client_send(pid_t pid, int sig)
 {
