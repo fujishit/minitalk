@@ -11,7 +11,6 @@ void	client_send(pid_t pid, int sig)
 
 void	client_atosig(unsigned char c, int sig[8])
 {
-	printf("%d : %c\n", c, c);
 	sig[7] = c % 2;
 	c = c / 2;
 	sig[6] = c % 2;
