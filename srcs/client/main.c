@@ -41,8 +41,8 @@ int		main(int argc, char *argv[])
 	pid_t	server;
 	size_t	i;
 
-	if (argc == 1)
-		return (1);
+	if (argc != 3)
+		client_error(argc);
 	server = ft_atoi(argv[1]);
 	i = 0;
 	while (argv[2][i] != '\0')

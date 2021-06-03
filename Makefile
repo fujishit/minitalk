@@ -20,7 +20,8 @@ SERVER_FILES	=	main.c
 SERVER_SRCS = $(addprefix $(SERVER_DIR), $(SERVER_FILES))
 
 CLIENT_DIR =		client/
-CLIENT_FILES =		main.c
+CLIENT_FILES =		main.c \
+					error.c
 CLIENT_SRCS = $(addprefix $(CLIENT_DIR), $(CLIENT_FILES))
 
 SRC_FILES =			$(SERVER_SRCS) \
