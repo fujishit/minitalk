@@ -7,7 +7,22 @@
 // 	int			sa_flags;
 // 	void		(*sa_restorer)(void);
 // };
-int	server_sigtochar(char *c)
+
+/*
+int	server_check_client(char client[10], int count, char ascii)
+{
+	client[count] = ascii;
+	if (count == 9)
+	{
+		write(1, "[", 1);
+		ft_putstr_fd(client, 1);
+		write(1, "]", 1);
+	}
+	return (count + 1);
+}
+*/
+
+static int	server_sigtochar(char *c)
 {
 	int	ret;
 
@@ -23,34 +38,20 @@ int	server_sigtochar(char *c)
 	return (ret);
 }
 
-int	server_check_client(char client[10], int count, char ascii)
+static int	server_send_client(pid_t client)
 {
-	client[count] = ascii;
-	if (count == 9)
-	{
-		write(1, "[", 1);
-		ft_putstr_fd(client, 1);
-		write(1, "]", 1);
-	}
-	return (count + 1);
-}
-
-int	server_send_client(char client[10])
-{
-	kill(ft_atoi(client), SIGUSR1);
+	kill(client, SIGUSR1);
 	return (0);
 }
 
-void	server_check(int sig, siginfo_t *siginfo, void *idk)
+static void	server_check(int sig, siginfo_t *siginfo, void *idk)
 {
 	int			ascii;
 	static char	c[8];
-	static char	client[10];
 	static int	num = 0;
 	static int	count = 0;
 
 	(void)idk;
-	(void)siginfo;
 	if (sig == SIGUSR1)
 		c[num] = '0';
 	else if (sig == SIGUSR2)
@@ -60,12 +61,9 @@ void	server_check(int sig, siginfo_t *siginfo, void *idk)
 	{
 		num = 0;
 		ascii = server_sigtochar(c);
-		if (ascii == '\0' && count == 10)
-			count = server_send_client(client);
-		else if (count < 10)
-			count = server_check_client(client, count, ascii);
-		else
-			write(1, &ascii, 1);
+		write(1, &ascii, 1);
+		if (ascii == '\0')
+			count = server_send_client(siginfo->si_pid);
 	}
 }
 
