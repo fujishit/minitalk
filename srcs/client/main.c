@@ -1,5 +1,4 @@
 #include "client.h"
-#include <stdio.h>
 
 void	client_send(pid_t pid, int sig[8])
 {
@@ -13,7 +12,7 @@ void	client_send(pid_t pid, int sig[8])
 		else
 			kill(pid, SIGUSR2);
 		i++;
-		usleep(100);
+		usleep(WAIT_TIME);
 	}
 }
 
@@ -73,16 +72,17 @@ int	main(int argc, char *argv[])
 
 	if (argc < 3)
 		client_error(argc);
-	if (wrap_atoi(argv[1], &server) == 1)
-		exit(1);
+	if (wrap_atoi(argv[1], &server) == 1 || server <= 0)
+	{
+		write(1, "invalid pid\n", 12);
+		return (1);
+	}
 	sigemptyset(&sigact.sa_mask);
 	sigact.sa_flags = SA_SIGINFO;
 	sigact.sa_sigaction = client_finish;
 	if (sigaction(SIGUSR1, &sigact, NULL) == -1)
-		return (0);
+		return (1);
 	client_send_args(argc, argv, server, sig);
-	client_atosig('\n', sig);
-	client_send(server, sig);
 	client_atosig('\0', sig);
 	client_send(server, sig);
 }
