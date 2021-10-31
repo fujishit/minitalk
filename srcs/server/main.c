@@ -6,7 +6,7 @@
 /*   By: mfujishi <mfujishi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 18:16:27 by mfujishi          #+#    #+#             */
-/*   Updated: 2021/10/31 18:57:23 by mfujishi         ###   ########.fr       */
+/*   Updated: 2021/10/31 19:03:16 by mfujishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	server_check(int sig, siginfo_t *siginfo, void *idk)
 	int			ascii;
 	static char	c[8];
 	static int	num = 0;
-	static int	count = 0;
 
 	(void)idk;
 	if (sig == SIGUSR1)
@@ -75,7 +74,7 @@ static void	server_check(int sig, siginfo_t *siginfo, void *idk)
 		ascii = server_sigtochar(c);
 		write(1, &ascii, 1);
 		if (ascii == '\0')
-			count = server_send_client(siginfo->si_pid);
+			server_send_client(siginfo->si_pid);
 	}
 }
 
