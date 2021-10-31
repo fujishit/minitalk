@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfujishi </var/mail/mfujishi>              +#+  +:+       +#+        */
+/*   By: mfujishi <mfujishi@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 18:16:27 by mfujishi          #+#    #+#             */
-/*   Updated: 2021/10/19 18:16:27 by mfujishi         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:57:35 by mfujishi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,5 @@ void	client_finish(int sig, siginfo_t *siginfo, void *idk)
 	(void)sig;
 	(void)siginfo;
 	(void)idk;
-	write(1, "Message sent!\n", 14);
 	exit (0);
 }
